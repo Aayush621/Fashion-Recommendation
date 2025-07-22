@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
-from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any # Added Any
 import io # For reading image bytes
@@ -82,6 +82,14 @@ app = FastAPI(
     title="Fashion Suggestion AI API",
     description="API for suggesting fashion products based on text or image queries.",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # --- Lifespan Events (for model loading/unloading, DB connections) ---
